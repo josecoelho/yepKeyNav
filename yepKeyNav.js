@@ -8,8 +8,7 @@
  *	plugin structure from: https://github.com/jquery-boilerplate/boilerplate with some modifications
  */
 
-// the semi-colon before function invocation is a safety net against concatenated
-// scripts and/or other plugins which may not be closed properly.
+
 ;(function ($, window, document, undefined) {
 
     $.widget('yep.yepKeyNav', {
@@ -34,16 +33,14 @@
             var self = this; //used to maintain class context on events
 
 
-            $(document).bind("keyup."+self.options.shortcuts.toggleSelect, $.proxy(self.toggleSelectByEvent,self));
-            $(document).bind("keyup."+self.options.shortcuts.next, $.proxy(self.next,self));
-            $(document).bind("keyup."+self.options.shortcuts.prev, $.proxy(self.prev,self));
 
-            $(document).on('click',"."+self.options.classes.navigable, $.proxy(self.currentByEvent,self));
+            $($(this.element)).bind("keyup."+self.options.shortcuts.toggleSelect, $.proxy(self.toggleSelectByEvent,self));
+            $($(this.element)).bind("keyup."+self.options.shortcuts.next, $.proxy(self.next,self));
+            $($(this.element)).bind("keyup."+self.options.shortcuts.prev, $.proxy(self.prev,self));
 
-            $(document).on('click',"."+self.options.classes.itemSelector,$.proxy(self.toggleSelectByEvent,self));
-
-
-            $(document).on('click','.'+self.options.classes.selectAll, $.proxy(self.selectAll,self))
+            $($(this.element)).on('click',"."+self.options.classes.navigable, $.proxy(self.currentByEvent,self));
+            $($(this.element)).on('click',"."+self.options.classes.itemSelector,$.proxy(self.toggleSelectByEvent,self));
+            $($(this.element)).on('click','.'+self.options.classes.selectAll, $.proxy(self.selectAll,self))
 
             this.nav(0);
         },
@@ -78,29 +75,27 @@
             }
 
         },
+        current: function() {
+            return $(this.element).find("."+this.options.classes.currentItem)
+        },
         _currentChangeAndTriggerEvt: function($item) {
             if(this.options.oldCurrent) {
                 this.options.oldCurrent.trigger('lostCurrent.yepKeyNav');
             }
 
-
             //remove from others
             $("."+this.options.classes.currentItem).removeClass(this.options.classes.currentItem);
             $item.addClass(this.options.classes.currentItem);
 
-            $(this.options.scrollSelector).scrollTo($item,200,{offset:-200});
+            $item.parents(this.options.scrollSelector).scrollTo($item,200,{offset:-200});
 
             $item.trigger('current.yepKeyNav');
 
             this.options.current = $item;
             this.options.oldCurrent = $item;
 
-
-
-
             return $item;
         },
-
         _setOption: function(key,value) {
             switch(key) {
                 case 'current':
@@ -116,10 +111,13 @@
             if(!$all.length) {
                 console.debug("yepKeyNav: There's no items to nav")
             } else {
-                $current = this.option('current')
+                $current = this.option('current');
 
                 current_position = $current ? $all.index($current) : 0;
+
+                console.debug("current_position: "+current_position)
                 next_position = current_position+number;
+                console.debug("next_position: "+next_position)
 
                 if(next_position >= $all.length) {
                     next_position = 0;
@@ -128,15 +126,16 @@
                 }
 
                 $new_current = $($all[next_position]);
-
-                this.option('current',$new_current)
+                this.option('current',$new_current);
             }
 
         },
         next: function () {
+           console.debug("yepKeyNav: next item")
            this.nav(1)
         },
         prev: function() {
+           console.debug("yepKeyNav: previous item")
            this.nav(-1)
         },
         toggleSelectByEvent: function(evt) {
@@ -173,7 +172,7 @@
         toggleSelect: function($item) {
 
             if(!$item) {
-                $item = this.options.current;
+                $item = this.current();
             }
 
 
