@@ -1,27 +1,28 @@
 yepKeyNav
-=========
+==========
 
 JQuery plugin provides a way to navigate or select items on a page using keyboad shortcuts.
 
-= Dependencies
+# Dependencies
  https://github.com/tzuryby/jquery.hotkeys/ 
  and http://flesler.blogspot.com/2007/10/jqueryscrollto.html
 
 
-= USAGE
+# USAGE
 
     $("selector of a list").yepNavKey()
 
 all itens with class yep-key-nav are navigable
 
 example to return the jquery selector for all selected itens:
+ 
     $("selector of a list").yepNavKey('selected', function(ret) {
         ret.each(function() {
                 //do something
         });
     });
 
-== Events
+## Events
 
 current.yepKeyNav - when the current item is changed
 lostCurrent.yepKeyNav - when item lost the current selecion
@@ -37,7 +38,7 @@ Example:
     })
 
 
-== Default Options
+## Default Options
     classes: {
         navigable: "yep-key-nav",
         currentItem: "yep-key-nav-current",
@@ -53,13 +54,13 @@ Example:
     }
 
 
-= Shortcuts
+# Default Shortcuts
 
-  j -> next element
-  k -> previous element
-  x -> select current element
-  space -> exec a configured function
+    j -> next element
+    k -> previous element
+    x -> select current element
+    space -> exec a configured function
 
-= BUGS
+# BUGS
 
 - navigable itens are found on entire document, and not only on $(this) scope
