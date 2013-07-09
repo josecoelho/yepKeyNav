@@ -1,6 +1,6 @@
 /*
  *  Project: YepKeyNav
- *  Version: 1.0
+ *  Version: 1.01
  *  Description: JQuery plugin provides a way to navigate or select items on a page using keyboad shortcuts.
  *  Author: Yepdev - José Coelho
  *  Dependencies: https://github.com/tzuryby/jquery.hotkeys/ and http://flesler.blogspot.com/2007/10/jqueryscrollto.html
