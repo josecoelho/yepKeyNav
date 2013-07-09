@@ -25,17 +25,22 @@
                 next: "j",
                 prev: "k",
                 toggleSelect: "x"
-            }
+            },
+            disableInInput: true //by default, keyboard shortcuts are disabled on input items
         },
 
         _create: function () {
             console.debug("yepKeyNav: init for "+$(this.element).attr('class'))
             var self = this; //used to maintain class context on events
 
+            var shortcutOptions = {
+                disable_in_input: self.options.disableInInput
+            }
 
-            shortcut.add(self.options.shortcuts.toggleSelect, $.proxy(self.toggleSelectByEvent,self));
-            shortcut.add(self.options.shortcuts.next, $.proxy(self.next,self));
-            shortcut.add(self.options.shortcuts.prev, $.proxy(self.prev,self));
+
+            shortcut.add(self.options.shortcuts.toggleSelect, $.proxy(self.toggleSelectByEvent,self),shortcutOptions);
+            shortcut.add(self.options.shortcuts.next, $.proxy(self.next,self),shortcutOptions);
+            shortcut.add(self.options.shortcuts.prev, $.proxy(self.prev,self),shortcutOptions);
 
             $($(this.element)).on('click',"."+self.options.classes.navigable, $.proxy(self.currentByEvent,self));
             $($(this.element)).on('click',"."+self.options.classes.itemSelector,$.proxy(self.toggleSelectByEvent,self));

@@ -51,7 +51,8 @@ Example:
         next: "j",
         prev: "k",
         toggleSelect: "x"
-    }
+    },
+    disableInInput: true //by default, keyboard shortcuts are disabled on input items
 
 
 # Default Shortcuts
